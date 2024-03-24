@@ -54,7 +54,8 @@ public class Thing : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             //Destroy(this.gameObject);
-        } else Destroy(other.gameObject);
+        } else if (other.gameObject.tag == "Enemy") {Destroy(other.gameObject); }
+        else { }
     }
 
 }
