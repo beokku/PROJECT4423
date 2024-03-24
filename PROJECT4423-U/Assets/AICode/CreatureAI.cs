@@ -6,7 +6,7 @@ using Aoiti.Pathfinding; //import the pathfinding library
 public class CreatureAI : MonoBehaviour
 {
 
-    //blackboard=======================================================
+    //blackboard======================================================= 
     public Creature myCreature; //the creature we are piloting
     public Creature targetCreature;
 
@@ -52,7 +52,10 @@ public class CreatureAI : MonoBehaviour
     void FixedUpdate()
     {
         currentState.UpdateStateBase(); //work the current state
-
+        if(currentState == hugState)
+        {
+            myCreature.transform.position += myCreature.transform.forward * 1.0f;
+        }
     }
 
     public Creature GetTarget()

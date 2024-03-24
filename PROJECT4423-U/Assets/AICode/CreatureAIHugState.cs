@@ -17,7 +17,10 @@ public class CreatureAIHugState : CreatureAIState
     {
         if (creatureAI.GetTarget() != null)
         {
-            creatureAI.myCreature.MoveCreatureToward(creatureAI.GetTarget().transform.position);
+            //creatureAI.myCreature.MoveCreatureToward(creatureAI.GetTarget().transform.position);
+            creatureAI.myCreature.transform.position += creatureAI.myCreature.transform.forward * 10.0f;
+            Debug.Log("MoveCreatureTorward Called.");
+
         }
         else
         {

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Weapon : MonoBehaviour
+public class CurWeapon : MonoBehaviour
 {
     [SerializeField] public Creature player; //Drag the "player" GO here in the Inspector    
     [SerializeField] public Thing currentObject;

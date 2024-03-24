@@ -39,11 +39,9 @@ public class PlayerInputHandler : MonoBehaviour
             input.x += 1;
         }
 
-        if (Input.GetKeyDown(KeyCode.W))
+        if (Input.GetKey(KeyCode.W))
         {
-            playerCreature.Jump();
-            //input.y += 1;
-
+            input.y += 1;
         }
 
         if (Input.GetKey(KeyCode.S))
@@ -61,7 +59,7 @@ public class PlayerInputHandler : MonoBehaviour
             playerCreature.Jump();
         }
 
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E) || Input.GetMouseButtonDown(0))
         {
             weapon.Attack();
         }

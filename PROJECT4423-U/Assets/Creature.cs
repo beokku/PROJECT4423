@@ -7,11 +7,13 @@ public class Creature : MonoBehaviour
 {
     [Header("Stats")]
     public float speed = 0f;
-    [SerializeField] float jumpForce = 10;
-    [SerializeField] int health = 3;
+    [SerializeField] float jumpForce = 3;
+    [SerializeField] int health = 10;
+    [SerializeField] int maxHealth = 10;
     [SerializeField] int stamina = 3;
     [SerializeField] float boostForce = 20;
     [SerializeField] int damage = 10;
+    [SerializeField] FloatingHealthBar healthBar;
 
     public enum CreatureMovementType { tf, physics };
     [SerializeField] CreatureMovementType movementType = CreatureMovementType.tf;
@@ -41,12 +43,14 @@ public class Creature : MonoBehaviour
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        healthBar = GetComponentInChildren<FloatingHealthBar>();
     }
 
     // Start is called before the first frame update
     void Start()
     {
-
+        health = maxHealth;
+        healthBar.UpdateHealthBar(health, maxHealth);
         Debug.Log(health);
 
     }
@@ -68,6 +72,7 @@ public class Creature : MonoBehaviour
             creatureSO.stamina = stamina;
         }
 
+       
 
     }
 
@@ -79,14 +84,14 @@ public class Creature : MonoBehaviour
         public void MoveCreature(Vector3 direction)
     {
 
-        if (movementType == CreatureMovementType.tf)
-        {
+        //if (movementType == CreatureMovementType.tf)
+       // {
             MoveCreatureTransform(direction);
-        }
-        else if (movementType == CreatureMovementType.physics)
+      //  }
+        /*else if (movementType == CreatureMovementType.physics)
         {
             MoveCreatureRb(direction);
-        }
+        }*/
 
         //set animation
         if (direction != Vector3.zero)
@@ -108,7 +113,8 @@ public class Creature : MonoBehaviour
     public void MoveCreatureToward(Vector3 target)
     {
         Vector3 direction = target - transform.position;
-        MoveCreature(direction.normalized);
+        // MoveCreature(direction.normalized);
+        MoveCreatureTransform(direction);
     }
 
     public void Stop()
@@ -140,6 +146,7 @@ public class Creature : MonoBehaviour
 
     public void MoveCreatureTransform(Vector3 direction)
     {
+
         transform.position += direction * Time.deltaTime * speed;
     }
 
@@ -149,14 +156,9 @@ public class Creature : MonoBehaviour
     }
     public void Jump()
     {
-        if (Physics2D.OverlapCircleAll(transform.position + new Vector3(0, jumpOffset, 0), jumpRadius, groundMask).Length > 1 && isGrounded == true)
+        if (Physics2D.OverlapCircleAll(transform.position + new Vector3(0, jumpOffset, 0), jumpRadius, groundMask).Length > 0)
         {
-
             rb.AddForce(Vector3.up * jumpForce, ForceMode2D.Impulse);
-        }
-        else
-        {
-            
         }
     }
 
@@ -174,7 +176,29 @@ public class Creature : MonoBehaviour
         }
     }
 
-    
+    void takeDamage()
+    {
+        health -= 1;
+        healthBar.UpdateHealthBar(health, maxHealth);
+        if (health < (maxHealth * 0.3)) {
+            body.GetComponent<SpriteRenderer>().color = Color.blue;
+        }
+        if (health == 0)
+        {
+            Destroy(this.gameObject);
+        }
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.tag == "Weapon" && this.gameObject.tag != "Player")
+        {
+            takeDamage();
+            
+        }
+        
+
+    }
 
 
 
