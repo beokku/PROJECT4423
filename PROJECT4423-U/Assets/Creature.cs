@@ -187,8 +187,13 @@ public class Creature : MonoBehaviour
         }
         if (health < 1)
         {
+            if (Random.Range(1, 5) == 1)
+            {
+                this.gameObject.GetComponent<HealthSpawner>().spawnHealth();
+            }
             Instantiate(deathParticles, transform.position, Quaternion.identity);
             Instantiate(deathParticles2, transform.position, Quaternion.identity);
+
             Destroy(this.gameObject);
 
         }
@@ -208,6 +213,14 @@ public class Creature : MonoBehaviour
             Creature enemyCreature = other.GetComponent<Creature>();
             int enemyDamage = enemyCreature.damage;
             takeDamage(enemyDamage);
+
+        }
+
+        if (other.gameObject.tag == "Item" && this.gameObject.tag == "Player")
+        {
+            health += 10;
+            healthBar.UpdateHealthBar(health, maxHealth);
+            Destroy(other.gameObject);
 
         }
 

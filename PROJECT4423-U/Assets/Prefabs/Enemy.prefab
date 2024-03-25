@@ -232,6 +232,7 @@ GameObject:
   - component: {fileID: 624012636851841754}
   - component: {fileID: 5087638506578762071}
   - component: {fileID: -4986590320697863335}
+  - component: {fileID: 7329165408972125467}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Enemy
@@ -525,6 +526,19 @@ TrailRenderer:
   m_Autodestruct: 0
   m_Emitting: 1
   m_ApplyActiveColorSpace: 1
+--- !u!114 &7329165408972125467
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4737059781545573066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fa7116147036ac428f99826dcd59322, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthPrefab: {fileID: 44199522209612872, guid: c9ba079ddd76a824a9960d0f22e4932e, type: 3}
 --- !u!1 &5158323740837194002
 GameObject:
   m_ObjectHideFlags: 0
