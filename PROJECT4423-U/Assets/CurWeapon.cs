@@ -9,6 +9,18 @@ public class CurWeapon : MonoBehaviour
 
     public void Update()
     {
-        transform.position = Vector3.Lerp(transform.position, player.transform.position, 20 * Time.deltaTime);
+        CheckGameObject();
+            
+    }
+    void CheckGameObject()
+    {
+        if (!player.gameObject.activeSelf)
+        {
+            this.gameObject.SetActive(false);
+        }
+        else
+        {
+            transform.position = Vector3.Lerp(transform.position, player.transform.position, 20 * Time.deltaTime);
+        }
     }
 }

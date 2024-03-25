@@ -7,6 +7,9 @@ public class PlayerInputHandler : MonoBehaviour
 
     [SerializeField] Creature playerCreature;
     [SerializeField] Thing weapon;
+    [SerializeField] float attackInterval = 0.5f; // Seconds between attacks
+    bool isAttacking = false;
+
     //ProjectileThrower projectileThrower;
 
     void Start()
@@ -17,60 +20,78 @@ public class PlayerInputHandler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector3 input = Vector3.zero;
-
-        // if (Input.GetKey(KeyCode.W))
-        // {
-        //     input.y += 1;
-        // }
-
-        // if (Input.GetKey(KeyCode.S))
-        // {
-        //     input.y += -1;
-        // }
-
-        if (Input.GetKey(KeyCode.A))
+        if (playerCreature.health > 0)
         {
-            input.x += -1;
-        }
+            Vector3 input = Vector3.zero;
 
-        if (Input.GetKey(KeyCode.D))
-        {
-            input.x += 1;
-        }
+            // if (Input.GetKey(KeyCode.W))
+            // {
+            //     input.y += 1;
+            // }
 
-        if (Input.GetKey(KeyCode.W))
-        {
-            input.y += 1;
-        }
+            // if (Input.GetKey(KeyCode.S))
+            // {
+            //     input.y += -1;
+            // }
 
-        if (Input.GetKey(KeyCode.S))
-        {
-            input.y -= 1;
-        }
+            if (Input.GetKey(KeyCode.A))
+            {
+                input.x += -1;
+            }
 
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            playerCreature.GetComponent<SpriteRenderer>().color = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
-        }
+            if (Input.GetKey(KeyCode.D))
+            {
+                input.x += 1;
+            }
 
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            playerCreature.Jump();
-        }
+            if (Input.GetKey(KeyCode.W))
+            {
+                input.y += 1;
+            }
 
-        if (Input.GetKeyDown(KeyCode.E) || Input.GetMouseButtonDown(0))
+            if (Input.GetKey(KeyCode.S))
+            {
+                input.y -= 1;
+            }
+
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                playerCreature.GetComponent<SpriteRenderer>().color = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
+            }
+
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                playerCreature.Jump();
+            }
+
+            if (Input.GetMouseButtonDown(0) && !isAttacking)
+            {
+                StartCoroutine(AttackRepeatedly());
+            }
+            else if (Input.GetMouseButtonUp(0) && isAttacking)
+            {
+                StopCoroutine(AttackRepeatedly());
+                isAttacking = false;
+            }
+
+            if (Input.GetKeyDown(KeyCode.LeftShift))
+            {
+                playerCreature.Boost();
+            }
+
+            playerCreature.MoveCreature(input);
+
+        }
+    }
+
+    IEnumerator AttackRepeatedly()
+    {
+        isAttacking = true;
+        while (isAttacking)
         {
             weapon.Attack();
+            yield return new WaitForSeconds(attackInterval);
         }
-
-        if (Input.GetKeyDown(KeyCode.LeftShift))
-        {
-            playerCreature.Boost();
-        }
-
-        playerCreature.MoveCreature(input);
-
-
     }
+
 }

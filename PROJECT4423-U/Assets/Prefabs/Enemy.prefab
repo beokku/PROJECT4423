@@ -364,6 +364,9 @@ MonoBehaviour:
   boostForce: 20
   damage: 10
   healthBar: {fileID: 0}
+  dead: 0
+  isInvulnerable: 0
+  invulnerabilityDuration: 1
   movementType: 0
   perspectiveType: 0
   groundMask:
@@ -376,11 +379,16 @@ MonoBehaviour:
   animationStateChangers: []
   deathParticles: {fileID: 3087682092929683021, guid: 1bd554415ae60e04f9826051aa7eaed6, type: 3}
   deathParticles2: {fileID: 3450857356446025506, guid: 3ad0db2416cabb44daa84cb400984566, type: 3}
+  deathParticles3: {fileID: 8611517026861657245, guid: 045036ce5e6a3054384ef92c6f4ab90d, type: 3}
+  hitParticles: {fileID: 0}
+  originalColor: {r: 0, g: 0, b: 0, a: 0}
   homePosition: {x: 0, y: 0, z: 0}
   creatureSO: {fileID: 0}
   isGrounded: 0
   originalGravityScale: 0
   collisionCount: 0
+  enemiesDefeated: 0
+  damageDealt: 0
 --- !u!50 &624012636851841754
 Rigidbody2D:
   serializedVersion: 4

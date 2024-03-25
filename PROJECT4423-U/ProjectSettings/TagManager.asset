@@ -8,6 +8,8 @@ TagManager:
   - Enemy
   - Weapon
   - Item
+  - Spawner
+  - UI
   layers:
   - Default
   - TransparentFX

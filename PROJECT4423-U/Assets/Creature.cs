@@ -8,12 +8,16 @@ public class Creature : MonoBehaviour
     [Header("Stats")]
     public float speed = 0f;
     [SerializeField] float jumpForce = 3;
-    [SerializeField] int health = 10;
+    [SerializeField] public int health = 10;
     [SerializeField] int maxHealth = 10;
     [SerializeField] int stamina = 3;
     [SerializeField] float boostForce = 20;
     [SerializeField] int damage = 2;        // Damage Enemy Deals
     [SerializeField] FloatingHealthBar healthBar;
+    [SerializeField] bool dead = false;
+    [SerializeField] private bool isInvulnerable = false;
+    [SerializeField] private float invulnerabilityDuration = 1.0f;
+
 
     public enum CreatureMovementType { tf, physics };
     [SerializeField] CreatureMovementType movementType = CreatureMovementType.tf;
@@ -31,6 +35,9 @@ public class Creature : MonoBehaviour
     [SerializeField] private List<AnimationStateChanger> animationStateChangers;
     [SerializeField] public ParticleSystem deathParticles;
     [SerializeField] public ParticleSystem deathParticles2;
+    [SerializeField] public ParticleSystem deathParticles3;
+    [SerializeField] public ParticleSystem hitParticles;
+    [SerializeField] private Color originalColor;
 
     [Header("Tracked Data")]
     [SerializeField] Vector3 homePosition = Vector3.zero;
@@ -38,9 +45,11 @@ public class Creature : MonoBehaviour
     [SerializeField] bool isGrounded;
     [SerializeField] private float originalGravityScale;
     [SerializeField] int collisionCount;
-  
+    [SerializeField] public int enemiesDefeated = 0;
+    [SerializeField] public int damageDealt = 0;
 
     Rigidbody2D rb;
+    private float invulnerabilityTimer;
 
     void Awake()
     {
@@ -51,6 +60,7 @@ public class Creature : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        originalColor = body.GetComponent<SpriteRenderer>().color;
         health = maxHealth;
         healthBar.UpdateHealthBar(health, maxHealth);
         Debug.Log(health);
@@ -180,32 +190,79 @@ public class Creature : MonoBehaviour
 
     void takeDamage(int damageAmount)
     {
-        health -= damageAmount;
-        healthBar.UpdateHealthBar(health, maxHealth);
-        if (health < (maxHealth * 0.3)) {
-            body.GetComponent<SpriteRenderer>().color = Color.blue;
-        }
-        if (health < 1)
+        if (!isInvulnerable)
         {
-            if (Random.Range(1, 5) == 1)
+            CameraShake cameraShake = Camera.main.GetComponent<CameraShake>();
+
+
+            if (this.gameObject.tag == "Player")
             {
-                this.gameObject.GetComponent<HealthSpawner>().spawnHealth();
+                
+                if (cameraShake != null)
+                {
+                    StartCoroutine(StartInvulnerability(0.2f));
+                    StartCoroutine(cameraShake.Shake(0.1f, 0.4f));
+                    
+                }
             }
-            Instantiate(deathParticles, transform.position, Quaternion.identity);
-            Instantiate(deathParticles2, transform.position, Quaternion.identity);
+            if (this.gameObject.tag == "Enemy")
+            {
+                
+                if (cameraShake != null)
+                {
+                    StartCoroutine(StartInvulnerability(0.05f));
+                    StartCoroutine(cameraShake.Shake(0.05f, 0.1f));
+                }
+            }
+            health -= damageAmount;
+            healthBar.UpdateHealthBar(health, maxHealth);
 
-            Destroy(this.gameObject);
+            if (health < (maxHealth * 0.3))
+            {
+                body.GetComponent<SpriteRenderer>().color = Color.blue;
+            }
+            if (health < 1)
+            {
+                if (Random.Range(1, 5) == 1)
+                {
+                    this.gameObject.GetComponent<HealthSpawner>().spawnHealth();
+                }
 
+                if (this.gameObject.tag == "Enemy")
+                {
+                    GameObject playerObject = GameObject.FindWithTag("Player");
+                    Creature playerCreature = playerObject.GetComponent<Creature>();
+                    playerCreature.enemiesDefeated += 1;
+                    Destroy(this.gameObject);
+                }
+
+                if (this.gameObject.tag == "Player")
+                {
+                    dead = true;
+                    StartCoroutine(SlowTimeOnDeath());
+                    DestroyAllEnemies();
+                    DestroyAllSpawners();
+                    this.gameObject.SetActive(false);
+                }
+
+                Instantiate(deathParticles, transform.position, Quaternion.identity);
+                Instantiate(deathParticles2, transform.position, Quaternion.identity);
+                Instantiate(deathParticles3, transform.position, Quaternion.identity);
+                //Instantiate(hitParticles, transform.position, Quaternion.identity);
+
+            }
         }
     }
-
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.tag == "Weapon" && this.gameObject.tag != "Player")
         {
             Thing attackerDamage = other.gameObject.GetComponent<Thing>();
             takeDamage(attackerDamage.damage);
-            
+
+            GameObject playerObject = GameObject.FindWithTag("Player");
+            Creature playerCreature = playerObject.GetComponent<Creature>();
+            playerCreature.damageDealt += attackerDamage.damage;
         }
 
         if (other.gameObject.tag == "Enemy" && this.gameObject.tag == "Player")
@@ -218,13 +275,73 @@ public class Creature : MonoBehaviour
 
         if (other.gameObject.tag == "Item" && this.gameObject.tag == "Player")
         {
-            health += 10;
+            health = Mathf.Min(health + 10, maxHealth);
             healthBar.UpdateHealthBar(health, maxHealth);
+
+            if (health > (maxHealth * 0.3))
+            {
+                body.GetComponent<SpriteRenderer>().color = originalColor;
+            }
             Destroy(other.gameObject);
 
         }
 
+    }
 
+
+    void DestroyAllEnemies()
+    {
+        // Find all game objects with the tag "Enemy"
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+
+        // Loop through the array and destroy each enemy
+        for (int i = 0; i < enemies.Length; i++)
+        {
+            enemies[i].GetComponent<Creature>().takeDamage(99);
+        }
+    }
+
+    void DestroyAllSpawners()
+    {
+        // Find all game objects with the tag "Enemy"
+        GameObject[] spawners = GameObject.FindGameObjectsWithTag("Spawner");
+
+        // Loop through the array and destroy each enemy
+        for (int i = 0; i < spawners.Length; i++)
+        {
+            Destroy(spawners[i]);
+        }
+    }
+
+    IEnumerator StartInvulnerability(float length)
+    {
+        isInvulnerable = true;
+        for (float i = 0; i < length; i += 0.2f) // Flashing interval
+        {
+            // Toggle visibility
+            body.GetComponent<SpriteRenderer>().enabled = !body.GetComponent<SpriteRenderer>().enabled;
+            yield return new WaitForSeconds(0.2f);
+        }
+        // Ensure sprite is visible after flashing
+        body.GetComponent<SpriteRenderer>().enabled = true;
+        isInvulnerable = false;
+    }
+
+    IEnumerator SlowTimeOnDeath()
+    {
+        float duration = 3f; // Duration over which to slow down time
+        float start = 1f; // Start at normal speed
+        float end = 0.01f; // End close to stopped, but not 0 to prevent freezing entirely
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            Time.timeScale = Mathf.Lerp(start, end, elapsed / duration);
+            elapsed += Time.unscaledDeltaTime; // Use unscaledDeltaTime here, as deltaTime will be affected by timeScale
+            yield return null;
+        }
+
+        Time.timeScale = end; // Ensure timeScale is set to the target end value
     }
 
 
