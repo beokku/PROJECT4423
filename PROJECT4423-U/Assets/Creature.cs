@@ -12,7 +12,7 @@ public class Creature : MonoBehaviour
     [SerializeField] int maxHealth = 10;
     [SerializeField] int stamina = 3;
     [SerializeField] float boostForce = 20;
-    [SerializeField] int damage = 10;
+    [SerializeField] int damage = 2;        // Damage Enemy Deals
     [SerializeField] FloatingHealthBar healthBar;
 
     public enum CreatureMovementType { tf, physics };
@@ -29,6 +29,8 @@ public class Creature : MonoBehaviour
     [SerializeField] string creatureName = "Meepis";
     public GameObject body;
     [SerializeField] private List<AnimationStateChanger> animationStateChangers;
+    [SerializeField] public ParticleSystem deathParticles;
+    [SerializeField] public ParticleSystem deathParticles2;
 
     [Header("Tracked Data")]
     [SerializeField] Vector3 homePosition = Vector3.zero;
@@ -176,16 +178,19 @@ public class Creature : MonoBehaviour
         }
     }
 
-    void takeDamage()
+    void takeDamage(int damageAmount)
     {
-        health -= 1;
+        health -= damageAmount;
         healthBar.UpdateHealthBar(health, maxHealth);
         if (health < (maxHealth * 0.3)) {
             body.GetComponent<SpriteRenderer>().color = Color.blue;
         }
-        if (health == 0)
+        if (health < 1)
         {
+            Instantiate(deathParticles, transform.position, Quaternion.identity);
+            Instantiate(deathParticles2, transform.position, Quaternion.identity);
             Destroy(this.gameObject);
+
         }
     }
 
@@ -193,10 +198,19 @@ public class Creature : MonoBehaviour
     {
         if (other.gameObject.tag == "Weapon" && this.gameObject.tag != "Player")
         {
-            takeDamage();
+            Thing attackerDamage = other.gameObject.GetComponent<Thing>();
+            takeDamage(attackerDamage.damage);
             
         }
-        
+
+        if (other.gameObject.tag == "Enemy" && this.gameObject.tag == "Player")
+        {
+            Creature enemyCreature = other.GetComponent<Creature>();
+            int enemyDamage = enemyCreature.damage;
+            takeDamage(enemyDamage);
+
+        }
+
 
     }
 

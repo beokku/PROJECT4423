@@ -248,7 +248,7 @@ Transform:
   m_GameObject: {fileID: 4737059781545573066}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.2048922, y: -1.204778, z: -0.7639022}
+  m_LocalPosition: {x: -3.2175362, y: -6.6163397, z: -0.7639022}
   m_LocalScale: {x: 1.3, y: 1.3, z: 1.3}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -337,7 +337,7 @@ CircleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -373,6 +373,8 @@ MonoBehaviour:
   creatureName: Meepis
   body: {fileID: 4737059781545573066}
   animationStateChangers: []
+  deathParticles: {fileID: 3087682092929683021, guid: 1bd554415ae60e04f9826051aa7eaed6, type: 3}
+  deathParticles2: {fileID: 3450857356446025506, guid: 3ad0db2416cabb44daa84cb400984566, type: 3}
   homePosition: {x: 0, y: 0, z: 0}
   creatureSO: {fileID: 0}
   isGrounded: 0

@@ -18,7 +18,11 @@ public class FloatingHealthBar : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        GameObject cameraObject = GameObject.FindGameObjectWithTag("MainCamera");
+        if (cameraObject != null)
+        {
+            camera = cameraObject.GetComponent<Camera>();
+        }
     }
 
     // Update is called once per frame

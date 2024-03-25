@@ -6,9 +6,8 @@ public class Thing : MonoBehaviour
 {
 
     [Header("Stats")]
-    [SerializeField] int health = 3;
-    [SerializeField] int damage = 10;
-    [SerializeField] float moveAmount = 3.0f; // Amount to move on the X axis
+    [SerializeField] public int damage;
+    [SerializeField] float moveAmount; // Amount to move on the X axis
 
 
   
