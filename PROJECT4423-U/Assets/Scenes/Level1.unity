@@ -1253,7 +1253,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 5
   moveAmount: 3
-  moveDuration: 3
+  moveDuration: 2
 --- !u!61 &557834133
 BoxCollider2D:
   m_ObjectHideFlags: 0

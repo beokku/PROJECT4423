@@ -61,7 +61,7 @@ public class PlayerInputHandler : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                playerCreature.Jump();
+                //playerCreature.Jump();
             }
 
             if (Input.GetMouseButtonDown(0) && !isAttacking)
@@ -76,7 +76,7 @@ public class PlayerInputHandler : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.LeftShift))
             {
-                playerCreature.Boost();
+                //playerCreature.Boost();
             }
 
             playerCreature.MoveCreature(input);

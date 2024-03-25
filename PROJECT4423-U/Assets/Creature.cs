@@ -30,7 +30,7 @@ public class Creature : MonoBehaviour
     [SerializeField] float jumpRadius = .25f;
 
     [Header("Flavor")]
-    [SerializeField] string creatureName = "Meepis";
+    [SerializeField] string creatureName;
     public GameObject body;
     [SerializeField] private List<AnimationStateChanger> animationStateChangers;
     [SerializeField] public ParticleSystem deathParticles;
@@ -42,7 +42,7 @@ public class Creature : MonoBehaviour
     [Header("Tracked Data")]
     [SerializeField] Vector3 homePosition = Vector3.zero;
     [SerializeField] CreatureSO creatureSO;
-    [SerializeField] bool isGrounded;
+    //[SerializeField] bool isGrounded;
     [SerializeField] private float originalGravityScale;
     [SerializeField] int collisionCount;
     [SerializeField] public int enemiesDefeated = 0;
@@ -63,29 +63,24 @@ public class Creature : MonoBehaviour
         originalColor = body.GetComponent<SpriteRenderer>().color;
         health = maxHealth;
         healthBar.UpdateHealthBar(health, maxHealth);
-        Debug.Log(health);
 
     }
-
 
 
     // Update is called once per frame
     void Update()
     {
-        if ((Physics2D.OverlapCircleAll(transform.position + new Vector3(0, jumpOffset, 0), jumpRadius, groundMask).Length > 0))
+        /*if ((Physics2D.OverlapCircleAll(transform.position + new Vector3(0, jumpOffset, 0), jumpRadius, groundMask).Length > 0))
         {
             isGrounded = true;
         } else { isGrounded = false; }
-
+        */
 
         if (creatureSO != null)
         {
             creatureSO.health = health;
             creatureSO.stamina = stamina;
         }
-
-       
-
     }
 
     void FixedUpdate()
@@ -96,16 +91,9 @@ public class Creature : MonoBehaviour
         public void MoveCreature(Vector3 direction)
     {
 
-        //if (movementType == CreatureMovementType.tf)
-       // {
+        
             MoveCreatureTransform(direction);
-      //  }
-        /*else if (movementType == CreatureMovementType.physics)
-        {
-            MoveCreatureRb(direction);
-        }*/
-
-        //set animation
+        /*
         if (direction != Vector3.zero)
         {
             foreach (AnimationStateChanger asc in animationStateChangers)
@@ -119,7 +107,7 @@ public class Creature : MonoBehaviour
             {
                 asc.ChangeAnimationState("Idle");
             }
-        }
+        } */
     }
 
     public void MoveCreatureToward(Vector3 target)
@@ -134,28 +122,7 @@ public class Creature : MonoBehaviour
         MoveCreature(Vector3.zero);
     }
 
-    public void MoveCreatureRb(Vector3 direction)
-    {
-        Vector3 currentVelocity = Vector3.zero;
-        if (perspectiveType == CreaturePerspective.sideScroll)
-        {
-            currentVelocity = new Vector3(0, rb.velocity.y, 0);
-            direction.y = 0;
-        }
-
-        rb.velocity = (currentVelocity) + (direction * speed);
-        if (rb.velocity.x < 0)
-        {
-            body.transform.localScale = new Vector3(-1, 1, 1);
-        }
-        else if (rb.velocity.x > 0)
-        {
-            body.transform.localScale = new Vector3(1, 1, 1);
-        }
-        //rb.AddForce(direction * speed);
-        //rb.MovePosition(transform.position + (direction * speed * Time.deltaTime))
-    }
-
+   
     public void MoveCreatureTransform(Vector3 direction)
     {
 
@@ -166,7 +133,7 @@ public class Creature : MonoBehaviour
     {
   
     }
-    public void Jump()
+    /* public void Jump()
     {
         if (Physics2D.OverlapCircleAll(transform.position + new Vector3(0, jumpOffset, 0), jumpRadius, groundMask).Length > 0)
         {
@@ -186,7 +153,7 @@ public class Creature : MonoBehaviour
             // Apply the boost force
             rb.AddForce(boostDirection * boostForce, ForceMode2D.Impulse);
         }
-    }
+    }*/
 
     void takeDamage(int damageAmount)
     {
@@ -250,7 +217,7 @@ public class Creature : MonoBehaviour
                 if (this.gameObject.tag == "Player")
                 {
                     dead = true;
-                    StartCoroutine(SlowTimeOnDeath());
+                    //StartCoroutine(SlowTimeOnDeath());
                     DestroyAllEnemies();
                     DestroyAllSpawners();
                     this.gameObject.SetActive(false);
@@ -298,17 +265,13 @@ public class Creature : MonoBehaviour
             Destroy(other.gameObject);
 
         }
-
     }
 
 
     void DestroyAllEnemies()
     {
-        // Find all game objects with the tag "Enemy"
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-
-        // Loop through the array and destroy each enemy
-        for (int i = 0; i < enemies.Length; i++)
+        for (int i = 0; i < enemies.Length; i++)        // Loop through the array and destroy each enemy
         {
             enemies[i].GetComponent<Creature>().takeDamage(99);
         }
@@ -316,11 +279,8 @@ public class Creature : MonoBehaviour
 
     void DestroyAllSpawners()
     {
-        // Find all game objects with the tag "Enemy"
         GameObject[] spawners = GameObject.FindGameObjectsWithTag("Spawner");
-
-        // Loop through the array and destroy each enemy
-        for (int i = 0; i < spawners.Length; i++)
+        for (int i = 0; i < spawners.Length; i++)       // Loop through the array and destroy each Spawner
         {
             Destroy(spawners[i]);
         }
@@ -331,7 +291,6 @@ public class Creature : MonoBehaviour
         isInvulnerable = true;
         for (float i = 0; i < length; i += 0.2f) // Flashing interval
         {
-            // Toggle visibility
             body.GetComponent<SpriteRenderer>().enabled = !body.GetComponent<SpriteRenderer>().enabled;
             yield return new WaitForSeconds(0.2f);
         }
@@ -340,22 +299,7 @@ public class Creature : MonoBehaviour
         isInvulnerable = false;
     }
 
-    IEnumerator SlowTimeOnDeath()
-    {
-        float duration = 3f; // Duration over which to slow down time
-        float start = 1f; // Start at normal speed
-        float end = 0.01f; // End close to stopped, but not 0 to prevent freezing entirely
-        float elapsed = 0f;
-
-        while (elapsed < duration)
-        {
-            Time.timeScale = Mathf.Lerp(start, end, elapsed / duration);
-            elapsed += Time.unscaledDeltaTime; // Use unscaledDeltaTime here, as deltaTime will be affected by timeScale
-            yield return null;
-        }
-
-        Time.timeScale = end; // Ensure timeScale is set to the target end value
-    }
+   
 
 
 

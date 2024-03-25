@@ -335,8 +335,8 @@ Transform:
   m_GameObject: {fileID: 99559371}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.27, y: 0.7, z: 0}
-  m_LocalScale: {x: 19.413273, y: 19.271595, z: 1}
+  m_LocalPosition: {x: 0.2536, y: 2.6876, z: 0}
+  m_LocalScale: {x: 31.128609, y: 23.392494, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -1394,7 +1394,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1957127250}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1907574919}
+        m_TargetAssemblyTypeName: MainMenuHandler, Assembly-CSharp
+        m_MethodName: Quit
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1957127250
 MonoBehaviour:
   m_ObjectHideFlags: 0
