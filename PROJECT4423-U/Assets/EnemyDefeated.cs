@@ -25,6 +25,6 @@ public class EnemyDefeated : MonoBehaviour
 
     void updateCounter()
     {
-            counter.text = "Enemies Defeated: " + player.enemiesDefeated.ToString();
+            counter.text = player.enemiesDefeated.ToString();
     }
 }

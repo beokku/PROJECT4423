@@ -192,26 +192,26 @@ public class Creature : MonoBehaviour
     {
         if (!isInvulnerable)
         {
-            CameraShake cameraShake = Camera.main.GetComponent<CameraShake>();
+            CameraShake cameraShaker = Camera.main.GetComponent<CameraShake>();
 
 
             if (this.gameObject.tag == "Player")
             {
                 
-                if (cameraShake != null)
+                if (cameraShaker != null)
                 {
-                    StartCoroutine(StartInvulnerability(0.2f));
-                    StartCoroutine(cameraShake.Shake(0.1f, 0.4f));
+                    StartCoroutine(StartInvulnerability(0.5f));
+                    StartCoroutine(cameraShaker.Shake(0.1f, 0.4f));
                     
                 }
             }
             if (this.gameObject.tag == "Enemy")
             {
                 
-                if (cameraShake != null)
+                if (cameraShaker != null)
                 {
                     StartCoroutine(StartInvulnerability(0.05f));
-                    StartCoroutine(cameraShake.Shake(0.05f, 0.1f));
+                    StartCoroutine(cameraShaker.Shake(0.05f, 0.1f));
                 }
             }
             health -= damageAmount;
@@ -233,6 +233,17 @@ public class Creature : MonoBehaviour
                     GameObject playerObject = GameObject.FindWithTag("Player");
                     Creature playerCreature = playerObject.GetComponent<Creature>();
                     playerCreature.enemiesDefeated += 1;
+
+                   
+                    ImageShaker imageShaker = FindObjectOfType<ImageShaker>();
+                    
+                   
+                    if (imageShaker != null)
+                    {
+                        StartCoroutine(imageShaker.Shake(0.1f, 20.0f));
+                        
+                    }
+
                     Destroy(this.gameObject);
                 }
 
@@ -243,6 +254,8 @@ public class Creature : MonoBehaviour
                     DestroyAllEnemies();
                     DestroyAllSpawners();
                     this.gameObject.SetActive(false);
+                    PauseMenuHandler pause = FindObjectOfType<PauseMenuHandler>();
+                    pause.gameOver();
                 }
 
                 Instantiate(deathParticles, transform.position, Quaternion.identity);
