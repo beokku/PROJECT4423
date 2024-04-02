@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class CurWeapon : MonoBehaviour
 {
-    [SerializeField] public Creature player; //Drag the "player" GO here in the Inspector    
+    [SerializeField] public Creature player;   
     [SerializeField] public Thing currentObject;
+    [SerializeField] public RangedThing currentRangedObject;
 
     public void Update()
     {

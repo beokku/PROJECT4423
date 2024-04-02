@@ -7,6 +7,7 @@ public class PlayerInputHandler : MonoBehaviour
 
     [SerializeField] Creature playerCreature;
     [SerializeField] Thing weapon;
+    [SerializeField] RangedThing rangedWeapon;
     [SerializeField] float attackInterval = 0.5f; // Seconds between attacks
     bool isAttacking = false;
 
@@ -89,7 +90,7 @@ public class PlayerInputHandler : MonoBehaviour
         isAttacking = true;
         while (isAttacking)
         {
-            weapon.Attack();
+            rangedWeapon.Attack();
             yield return new WaitForSeconds(attackInterval);
         }
     }

@@ -24,7 +24,7 @@ public class CameraShake : MonoBehaviour
             yield return null; // Wait until the next frame
         }
 
-        // Reset the camera's position to its original location after the shaking has finished
+        // Reset the camera's position to its original location after the shaking has finished.
         transform.localPosition = originalPos;
     }
 }

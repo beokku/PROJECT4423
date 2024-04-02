@@ -265,6 +265,13 @@ public class Creature : MonoBehaviour
             Destroy(other.gameObject);
 
         }
+
+        if (other.gameObject.tag == "PlayerProjectile" && this.gameObject.tag == "Enemy")
+        {
+            Projectile projectile = other.GetComponent<Projectile>();
+            int damageToTake = projectile.damage;
+            takeDamage(damageToTake);
+        }
     }
 
 

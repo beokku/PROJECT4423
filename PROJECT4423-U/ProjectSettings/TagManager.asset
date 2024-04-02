@@ -10,6 +10,7 @@ TagManager:
   - Item
   - Spawner
   - UI
+  - PlayerProjectile
   layers:
   - Default
   - TransparentFX
