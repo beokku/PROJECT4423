@@ -11,10 +11,10 @@ GameObject:
   - component: {fileID: 8805261176684973618}
   - component: {fileID: 2744095207029462275}
   - component: {fileID: 2493014454841332751}
-  - component: {fileID: 1259606622181413562}
+  - component: {fileID: -103810405427141475}
   m_Layer: 0
-  m_Name: Health
-  m_TagString: HealthItem
+  m_Name: Exp
+  m_TagString: ExpItem
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -29,8 +29,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1.2727, y: -5.573034, z: 0}
-  m_LocalScale: {x: 0.3469557, y: 0.69697815, z: 0.69697815}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.14, y: 0.28123748, z: 0.28123748}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 3625043607559282579, guid: 19fb86013d8c24d6cb8410c0aadf30fa, type: 3}
-  m_Color: {r: 0.2660625, g: 1, b: 0, a: 1}
+  m_Color: {r: 1, g: 0.9005834, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -129,9 +129,9 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 0.5}
+  m_Size: {x: 2, y: 1}
   m_EdgeRadius: 0
---- !u!114 &1259606622181413562
+--- !u!114 &-103810405427141475
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -140,7 +140,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 44199522209612872}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8b6d0a66b823e7d4699d9a8f34c5a5a0, type: 3}
+  m_Script: {fileID: 11500000, guid: 730f0cb4fb6070f4494119650308d133, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   lifetime: 10

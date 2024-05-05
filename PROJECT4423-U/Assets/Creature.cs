@@ -1,6 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 public class Creature : MonoBehaviour
@@ -10,13 +14,22 @@ public class Creature : MonoBehaviour
     [SerializeField] float jumpForce = 3;
     [SerializeField] public int health = 10;
     [SerializeField] int maxHealth = 10;
+    [SerializeField] int level = 1;
+    [SerializeField] int exp = 0;
+    [SerializeField] float expMult = 1;
+    [SerializeField] int maxExp = 10;
+    [SerializeField] float expIncreasePercentage = 10f;
+    [SerializeField] int levelUpMaxHealthIncrease = 1;
     [SerializeField] int stamina = 3;
     [SerializeField] float boostForce = 20;
     [SerializeField] int damage = 2;        // Damage Enemy Deals
     [SerializeField] FloatingHealthBar healthBar;
+    [SerializeField] public Slider expBar;
     [SerializeField] bool dead = false;
     [SerializeField] private bool isInvulnerable = false;
     [SerializeField] private float invulnerabilityDuration = 1.0f;
+
+    [SerializeField] CurWeapon currentWeapon;
 
 
     public enum CreatureMovementType { tf, physics };
@@ -51,6 +64,9 @@ public class Creature : MonoBehaviour
     Rigidbody2D rb;
     private float invulnerabilityTimer;
 
+    private UIExpBar CreatureExpBar;
+    
+
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -63,6 +79,15 @@ public class Creature : MonoBehaviour
         originalColor = body.GetComponent<SpriteRenderer>().color;
         health = maxHealth;
         healthBar.UpdateHealthBar(health, maxHealth);
+
+        if (this.gameObject.tag == "Player") {
+            CreatureExpBar = expBar.GetComponent<UIExpBar>();
+            CreatureExpBar.UpdateExpBar(exp, maxExp);
+        }
+
+        
+
+        
 
     }
 
@@ -155,6 +180,22 @@ public class Creature : MonoBehaviour
         }
     }*/
 
+    void levelUp() {
+
+        exp = 0;
+        level += 1;
+        float increaseAmount = maxExp * (expIncreasePercentage / 100f);
+        maxExp = maxExp + (int)Math.Ceiling(increaseAmount);
+        maxHealth += levelUpMaxHealthIncrease;
+        Time.timeScale = 0;
+        LevelUpMenuHandler levelUpMenu = FindObjectOfType<LevelUpMenuHandler>();
+        levelUpMenu.show();
+
+        GameObject levelText = GameObject.Find("/UI Canvas/LevelText");
+        levelText.GetComponent<UpdateUILevel>().updateCounter();
+
+    }
+
     void takeDamage(int damageAmount)
     {
         if (!isInvulnerable)
@@ -190,13 +231,20 @@ public class Creature : MonoBehaviour
             }
             if (health < 1)
             {
-                if (Random.Range(1, 5) == 1)
-                {
-                    this.gameObject.GetComponent<HealthSpawner>().spawnHealth();
-                }
 
                 if (this.gameObject.tag == "Enemy")
                 {
+
+                    if (UnityEngine.Random.Range(1, 10) == 1)
+                    {
+                        this.gameObject.GetComponent<HealthSpawner>().spawnHealth();
+                    }
+
+                    if (UnityEngine.Random.Range(1, 2) == 1)
+                    {
+                        this.gameObject.GetComponent<ExpSpawner>().spawnExp();
+                    }
+
                     GameObject playerObject = GameObject.FindWithTag("Player");
                     Creature playerCreature = playerObject.GetComponent<Creature>();
                     playerCreature.enemiesDefeated += 1;
@@ -235,15 +283,15 @@ public class Creature : MonoBehaviour
     }
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.tag == "Weapon" && this.gameObject.tag != "Player")
-        {
-            Thing attackerDamage = other.gameObject.GetComponent<Thing>();
-            takeDamage(attackerDamage.damage);
+        // if (other.gameObject.tag == "Weapon" && this.gameObject.tag != "Player")
+        // {
+        //     Thing attackerDamage = other.gameObject.GetComponent<Thing>();
+        //     takeDamage(attackerDamage.damage);
 
-            GameObject playerObject = GameObject.FindWithTag("Player");
-            Creature playerCreature = playerObject.GetComponent<Creature>();
-            playerCreature.damageDealt += attackerDamage.damage;
-        }
+        //     GameObject playerObject = GameObject.FindWithTag("Player");
+        //     Creature playerCreature = playerObject.GetComponent<Creature>();
+        //     playerCreature.damageDealt += attackerDamage.damage;
+        // }
 
         if (other.gameObject.tag == "Enemy" && this.gameObject.tag == "Player")
         {
@@ -253,7 +301,8 @@ public class Creature : MonoBehaviour
 
         }
 
-        if (other.gameObject.tag == "Item" && this.gameObject.tag == "Player")
+        // HEALTH PICKUP
+        if (other.gameObject.tag == "HealthItem" && this.gameObject.tag == "Player")
         {
             health = Mathf.Min(health + 10, maxHealth);
             healthBar.UpdateHealthBar(health, maxHealth);
@@ -266,12 +315,28 @@ public class Creature : MonoBehaviour
 
         }
 
+        // EXP PICKUP
+        if (other.gameObject.tag == "ExpItem" && this.gameObject.tag == "Player")
+        {
+            int baseExp = 1; // Base experience from picking up an exp item
+            int totalExp = (int)(baseExp * expMult); // Adjust base exp by the multiplier
+            exp += totalExp; // Add to the total experience
+
+            if (exp >= maxExp) {
+                levelUp();
+            }
+            CreatureExpBar.UpdateExpBar(exp, maxExp);
+            Destroy(other.gameObject);
+        }
+
         if (other.gameObject.tag == "PlayerProjectile" && this.gameObject.tag == "Enemy")
         {
             Projectile projectile = other.GetComponent<Projectile>();
             int damageToTake = projectile.damage;
             takeDamage(damageToTake);
         }
+
+        
     }
 
 
@@ -306,7 +371,16 @@ public class Creature : MonoBehaviour
         isInvulnerable = false;
     }
 
-   
+    public CurWeapon getCurrentWeapon() {
+        return currentWeapon;
+    }
+    public void setWeapon(CurWeapon weapon) {
+        currentWeapon = weapon;
+    }
+
+   public int getLevel() { return level;}
+
+   public void addExpMult(float amt) {expMult += amt;}
 
 
 

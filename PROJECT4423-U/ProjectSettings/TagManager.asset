@@ -11,6 +11,9 @@ TagManager:
   - Spawner
   - UI
   - PlayerProjectile
+  - HealthItem
+  - ExpItem
+  - Upgrade
   layers:
   - Default
   - TransparentFX

@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class HealthSpawner : MonoBehaviour
 {
-    public GameObject healthPrefab; // Assign this in the Inspector with your enemy prefab
-    // Start is called before the first frame update
+    public GameObject healthPrefab; 
     void Start()
     {
         

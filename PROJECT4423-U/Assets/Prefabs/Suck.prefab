@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 7083403884234614516}
   - component: {fileID: 3450857356446025506}
   - component: {fileID: 9058235258925122365}
-  - component: {fileID: -6762965746556416342}
   m_Layer: 0
   m_Name: Suck
   m_TagString: Untagged
@@ -44,7 +43,7 @@ ParticleSystem:
   serializedVersion: 8
   lengthInSec: 0.69
   simulationSpeed: 1
-  stopAction: 0
+  stopAction: 2
   cullingMode: 0
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
@@ -4831,16 +4830,3 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
---- !u!114 &-6762965746556416342
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6312660579080352052}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2ca45d92c089d114b9d605caa5c20c12, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  time: 4

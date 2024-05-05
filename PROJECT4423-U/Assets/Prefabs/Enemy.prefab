@@ -233,6 +233,7 @@ GameObject:
   - component: {fileID: 5087638506578762071}
   - component: {fileID: -4986590320697863335}
   - component: {fileID: 7329165408972125467}
+  - component: {fileID: -1838204288086881526}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Enemy
@@ -356,14 +357,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04cf26b52d86da84eb29adecfbf515b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0.2
+  speed: 0.1
   jumpForce: 3
   health: 10
   maxHealth: 10
+  level: 1
+  exp: 0
+  expMult: 1
+  maxExp: 10
+  expIncreasePercentage: 10
+  levelUpMaxHealthIncrease: 1
   stamina: 3
   boostForce: 20
   damage: 10
   healthBar: {fileID: 0}
+  expBar: {fileID: 0}
   dead: 0
   isInvulnerable: 0
   invulnerabilityDuration: 1
@@ -384,7 +392,6 @@ MonoBehaviour:
   originalColor: {r: 0, g: 0, b: 0, a: 0}
   homePosition: {x: 0, y: 0, z: 0}
   creatureSO: {fileID: 0}
-  isGrounded: 0
   originalGravityScale: 0
   collisionCount: 0
   enemiesDefeated: 0
@@ -428,8 +435,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4de25a07b6af7074f9712e05fb2ea45b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationSpeed: 20
-  moveSpeed: 4
+  rotationSpeed: 5
+  moveSpeed: 3.5
 --- !u!96 &-4986590320697863335
 TrailRenderer:
   serializedVersion: 3
@@ -547,6 +554,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthPrefab: {fileID: 44199522209612872, guid: c9ba079ddd76a824a9960d0f22e4932e, type: 3}
+--- !u!114 &-1838204288086881526
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4737059781545573066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b4b468a0f9bb5b4ea03f2cb482f3c67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  expPrefab: {fileID: 44199522209612872, guid: 4a741932837904c43b67489a686fbc34, type: 3}
 --- !u!1 &5158323740837194002
 GameObject:
   m_ObjectHideFlags: 0
