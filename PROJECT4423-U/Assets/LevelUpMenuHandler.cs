@@ -93,7 +93,7 @@ public void show() {
 public void upgradeNumProjectiles(int num) {
     if (!canClick) return; // Check if clicking is allowed
     currentWeapon.GetComponent<RangedThing>().increaseProjectiles(num);
-    currentWeapon.GetComponent<RangedThing>().setAttackSpeed(-0.15f);
+    currentWeapon.GetComponent<RangedThing>().setAttackSpeed(-0.20f);
     GetComponent<AudioSource>().Stop();
     UI.SetActive(false);
     Time.timeScale = 1;
