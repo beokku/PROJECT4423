@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Animations;
 using UnityEngine.SceneManagement;
 
 public class LevelUpMenuHandler : MonoBehaviour
@@ -14,6 +15,7 @@ public class LevelUpMenuHandler : MonoBehaviour
     [SerializeField] public GameObject upgradeAttackSpeedPrefab;
     [SerializeField] private GameObject upgradeProjectilesPrefab;
     [SerializeField] private GameObject upgradeExpMultPrefab;
+    [SerializeField] private GameObject gameMusic;
     
     public bool canClick = true; // This flag will control if the user can click on menu items
 
@@ -36,6 +38,7 @@ public class LevelUpMenuHandler : MonoBehaviour
         Debug.LogError("playerCreature not set!");
     }
     if (playerCreature.getLevel() == 1) {
+        GetComponent<AudioSource>().Play();
         Time.timeScale = 0.0f;
         UI.transform.Find("LevelUpTitle").GetComponent<TextMeshProUGUI>().SetText("Welcome");
         UI.transform.Find("LevelUpText").GetComponent<TextMeshProUGUI>().SetText("Choose a Weapon");
@@ -52,8 +55,12 @@ public class LevelUpMenuHandler : MonoBehaviour
 
 public void show() {
     UI.SetActive(true);
+    gameMusic.GetComponent<AudioSource>().Stop();
+    GetComponent<AudioSource>().Play();
 
     if (playerCreature.getLevel() == 2) {
+        UI.transform.Find("LevelUpTitle").GetComponent<TextMeshProUGUI>().SetText("Level Up");
+        UI.transform.Find("LevelUpText").GetComponent<TextMeshProUGUI>().SetText("Choose an Upgrade");
         GameObject carrot = GameObject.Find("Upgrade_CarrotGun");
         GameObject chain = GameObject.Find("Upgrade_ChainGun");
         GameObject empty = GameObject.Find("Upgrade_Empty");
@@ -77,22 +84,29 @@ public void show() {
    public void upgradeAttackSpeed(float upgradeAmount) {
     if (!canClick) return; // Check if clicking is allowed
     currentWeapon.GetComponent<RangedThing>().setAttackSpeed(upgradeAmount);
+    GetComponent<AudioSource>().Stop();
     UI.SetActive(false);
     Time.timeScale = 1;
+    gameMusic.GetComponent<AudioSource>().Play();
 }
 
 public void upgradeNumProjectiles(int num) {
     if (!canClick) return; // Check if clicking is allowed
     currentWeapon.GetComponent<RangedThing>().increaseProjectiles(num);
+    currentWeapon.GetComponent<RangedThing>().setAttackSpeed(-0.15f);
+    GetComponent<AudioSource>().Stop();
     UI.SetActive(false);
     Time.timeScale = 1;
+    gameMusic.GetComponent<AudioSource>().Play();
 }
 
 public void upgradeExpMult(float amount) {
     if (!canClick) return; // Check if clicking is allowed
     playerCreature.addExpMult(amount);
+    GetComponent<AudioSource>().Stop();
     UI.SetActive(false);
     Time.timeScale = 1;
+    gameMusic.GetComponent<AudioSource>().Play();
 }
 
 public void chooseWeapon_ChainGun() {
@@ -135,17 +149,21 @@ public void chooseWeapon_ChainGun() {
     currentWeapon = curWeapon;
     carrotGun.SetActive(false);
     chainGun.SetActive(true);
+    GetComponent<AudioSource>().Stop();
     UI.SetActive(false);
     Time.timeScale = 1;
+    gameMusic.GetComponent<AudioSource>().Play();
 }
 
 
-public void hooseWeapon_CarrotGun() {
+public void chooseWeapon_CarrotGun() {
 
+    GetComponent<AudioSource>().Stop();
     // Disable Upgrade Screen
     UI.SetActive(false);
     // Timescale back to normal
     Time.timeScale = 1;
+    gameMusic.GetComponent<AudioSource>().Play();
 
 }
 

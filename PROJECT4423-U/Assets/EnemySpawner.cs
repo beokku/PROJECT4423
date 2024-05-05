@@ -4,7 +4,8 @@ using UnityEngine;
 public class EnemySpawner : MonoBehaviour
 {
     public GameObject enemyPrefab; // Assign this in the Inspector with your enemy prefab
-    public float spawnInterval = 2f; // Time between each spawn in seconds
+    public float minSpawnInterval = 1f; // Minimum time between each spawn in seconds
+    public float maxSpawnInterval = 3f; // Maximum time between each spawn in seconds
     public GameObject player;
     public Creature playerCreature;
 
@@ -26,10 +27,14 @@ public class EnemySpawner : MonoBehaviour
             {
                 break;
             }
-                // Instantiate a new enemy prefab at the spawner's position
-                Instantiate(enemyPrefab, transform.position, Quaternion.identity);
+            
+            // Instantiate a new enemy prefab at the spawner's position
+            Instantiate(enemyPrefab, transform.position, Quaternion.identity);
 
-            // Wait for the specified interval before spawning the next enemy
+            // Randomize the spawn interval within the specified range
+            float spawnInterval = Random.Range(minSpawnInterval, maxSpawnInterval);
+
+            // Wait for the randomized interval before spawning the next enemy
             yield return new WaitForSeconds(spawnInterval);
         }
     }

@@ -59,12 +59,19 @@ public class Creature : MonoBehaviour
     [SerializeField] private float originalGravityScale;
     [SerializeField] int collisionCount;
     [SerializeField] public int enemiesDefeated = 0;
+    private int oldEnemiesDefeated = 0;
     [SerializeField] public int damageDealt = 0;
+    [SerializeField] private AudioSource playerDamage;
+    [SerializeField] private AudioSource enemyDeath;
+    [SerializeField] private AudioSource expPickup;
+    [SerializeField] private AudioSource healthPickup;
 
     Rigidbody2D rb;
     private float invulnerabilityTimer;
 
     private UIExpBar CreatureExpBar;
+
+    
     
 
     void Awake()
@@ -101,11 +108,20 @@ public class Creature : MonoBehaviour
         } else { isGrounded = false; }
         */
 
+
         if (creatureSO != null)
         {
             creatureSO.health = health;
             creatureSO.stamina = stamina;
         }
+
+
+
+        if (oldEnemiesDefeated < enemiesDefeated) {
+            enemyDeath.Play();
+            oldEnemiesDefeated = enemiesDefeated;
+        }
+
     }
 
     void FixedUpdate()
@@ -216,6 +232,7 @@ public class Creature : MonoBehaviour
             if (this.gameObject.tag == "Enemy")
             {
                 
+                GetComponent<AudioSource>().Play();
                 if (cameraShaker != null)
                 {
                     StartCoroutine(StartInvulnerability(0.05f));
@@ -234,7 +251,7 @@ public class Creature : MonoBehaviour
 
                 if (this.gameObject.tag == "Enemy")
                 {
-
+                    
                     if (UnityEngine.Random.Range(1, 10) == 1)
                     {
                         this.gameObject.GetComponent<HealthSpawner>().spawnHealth();
@@ -298,6 +315,7 @@ public class Creature : MonoBehaviour
             Creature enemyCreature = other.GetComponent<Creature>();
             int enemyDamage = enemyCreature.damage;
             takeDamage(enemyDamage);
+            playerDamage.Play();
 
         }
 
@@ -312,7 +330,7 @@ public class Creature : MonoBehaviour
                 body.GetComponent<SpriteRenderer>().color = originalColor;
             }
             Destroy(other.gameObject);
-
+            healthPickup.Play();
         }
 
         // EXP PICKUP
@@ -321,12 +339,15 @@ public class Creature : MonoBehaviour
             int baseExp = 1; // Base experience from picking up an exp item
             int totalExp = (int)(baseExp * expMult); // Adjust base exp by the multiplier
             exp += totalExp; // Add to the total experience
-
+        
             if (exp >= maxExp) {
                 levelUp();
             }
             CreatureExpBar.UpdateExpBar(exp, maxExp);
+            expPickup.Play();
             Destroy(other.gameObject);
+
+            
         }
 
         if (other.gameObject.tag == "PlayerProjectile" && this.gameObject.tag == "Enemy")

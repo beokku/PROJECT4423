@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 533658158669878211}
   - component: {fileID: 792683055966982894}
   - component: {fileID: 1929726645854634873}
+  - component: {fileID: 6248964339197002335}
   m_Layer: 0
   m_Name: CarrotGun
   m_TagString: Weapon
@@ -29,7 +30,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8834537036846617374}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0.6986585, w: 0.7154553}
+  m_LocalRotation: {x: 0, y: 0, z: -0.69865876, w: 0.7154551}
   m_LocalPosition: {x: 0.37, y: -6.47, z: -3}
   m_LocalScale: {x: 1.41, y: 1.41, z: 1.41}
   m_ConstrainProportionsScale: 1
@@ -103,6 +104,8 @@ MonoBehaviour:
   player: {fileID: 0}
   currentObject: {fileID: 0}
   currentRangedObject: {fileID: 1929726645854634873}
+  offsetDistance: 1
+  verticalOffset: 1
 --- !u!61 &533658158669878211
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -160,6 +163,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8960ac1b943ab2498d47148d3f787e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pointAtCursor: 0
   rotationSpeed: 200
   rotationOffset: 37.2
   leftOffset: 260
@@ -175,12 +179,108 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35e687770a6eb78478adf9f769b5022c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationSpeed: 200
-  rotationOffset: 180
   carrotProjectile: {fileID: 3751669484528722309, guid: daa61d114b118664bb976140b97c6dbe, type: 3}
-  projectileSpeed: 8
-  numberOfProjectiles: 3
+  projectileSpeed: 7
+  player: {fileID: 0}
+  numberOfProjectiles: 5
   spreadAngle: 7
   accuracy: 2
   maxRandomRotation: 1.33
-  attackSpeed: 1
+  attackSpeed: 0.5
+  distanceFromPlayer: 1
+--- !u!82 &6248964339197002335
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8834537036846617374}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 24300002, guid: ef43510a7da7e1a4f8470b0d28fa97d7, type: 2}
+  m_audioClip: {fileID: 8300000, guid: 1d525d609938f924aa0876bc0763d584, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4

@@ -64,6 +64,7 @@ public class RangedThing : MonoBehaviour
                 rb.velocity = projectileDirection * projectileSpeed;
             }
         }
+        GetComponent<AudioSource>().Play();
     }
 
     private GameObject FindNearestEnemy()
