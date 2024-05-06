@@ -2,116 +2,90 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerInputHandler : MonoBehaviour
-{
+public class PlayerInputHandler : MonoBehaviour {
     [SerializeField] private Creature playerCreature;
     [SerializeField] private Thing weapon;
     [SerializeField] private RangedThing rangedWeapon;
-    [SerializeField] private SpriteRenderer playerSpriteRenderer; // References the SpriteRenderer on the player
-    [SerializeField] private Sprite normalSprite; // Normal state sprite
-    [SerializeField] private Sprite firingSprite; // Firing state sprite
-    [SerializeField] private float firingSpriteDuration = 0.1f; // Duration to show firing sprite
+    [SerializeField] private SpriteRenderer playerSpriteRenderer; 
+    [SerializeField] private Sprite normalSprite; 
+    [SerializeField] private Sprite firingSprite; 
+    [SerializeField] private float firingSpriteDuration = 0.1f; 
     
     private bool isAttacking = false;
-    private bool autoFire = false; // Flag to toggle auto-fire on and off
-    private float lastAttackTime = 0f; // Track the time when the last attack was made
+    private bool autoFire = false; 
+    private float lastAttackTime = 0f; 
 
-    void Update()
-    {
-        if (playerCreature.health > 0)
-        {
+    void Update() {
+        if (playerCreature.health > 0) {
             Vector3 input = Vector3.zero;
 
-            if (Input.GetKey(KeyCode.Escape))
-            {
+            if (Input.GetKey(KeyCode.Escape)) {
                 PauseMenuHandler pause = FindObjectOfType<PauseMenuHandler>();
                 pause.Pause();
             }
             
-            if (Input.GetKey(KeyCode.A))
-            {
+            if (Input.GetKey(KeyCode.A)) {
                 input.x += -1;
             }
 
-            if (Input.GetKey(KeyCode.D))
-            {
+            if (Input.GetKey(KeyCode.D)) {
                 input.x += 1;
             }
 
-            if (Input.GetKey(KeyCode.W))
-            {
+            if (Input.GetKey(KeyCode.W)) {
                 input.y += 1;
             }
 
-            if (Input.GetKey(KeyCode.S))
-            {
+            if (Input.GetKey(KeyCode.S)) {
                 input.y -= 1;
             }
 
-            if (Input.GetKeyDown(KeyCode.Q))
-            {
+            if (Input.GetKeyDown(KeyCode.Q)) {
                 playerCreature.getCurrentWeapon().GetComponent<PointTowardsNearestEnemy>().toggleAim();
             }
 
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                //playerCreature.Jump();
-            }
-
             // Toggle auto-fire with the 'E' key
-            if (Input.GetKeyDown(KeyCode.E))
-            {
+            if (Input.GetKeyDown(KeyCode.E)) {
                 autoFire = !autoFire; // Toggle auto-fire state
             }
 
             // Handle attack input for both auto-fire and manual fire
-            if (Input.GetMouseButton(0) || autoFire)
-            {
+            if (Input.GetMouseButton(0) || autoFire) {
                 float attackSpeed = rangedWeapon.getAttackSpeed();
-                if (Time.time >= lastAttackTime + 1f / attackSpeed)
-                {
-                    if (!isAttacking)
-                    {
+                if (Time.time >= lastAttackTime + 1f / attackSpeed) {
+                    if (!isAttacking) {
                         StartCoroutine(AttackRepeatedly());
                     }
                 }
-            }
-            else if (isAttacking)
-            {
+            } else if (isAttacking) {
                 StopCoroutine(AttackRepeatedly());
                 isAttacking = false;
             }
 
-            if (Input.GetKeyDown(KeyCode.LeftShift))
-            {
+            if (Input.GetKeyDown(KeyCode.LeftShift)) {
                 //playerCreature.Boost();
             }
-
             playerCreature.MoveCreature(input);
         }
     }
 
-    IEnumerator AttackRepeatedly()
-    {
+    IEnumerator AttackRepeatedly() {
         isAttacking = true;
 
-        while (isAttacking)
-        {
-            if (Time.time >= lastAttackTime + 1f / rangedWeapon.getAttackSpeed())
-            {
-                playerSpriteRenderer.sprite = firingSprite; // Change to the firing sprite
+        while (isAttacking) {
+            if (Time.time >= lastAttackTime + 1f / rangedWeapon.getAttackSpeed()) {
+                playerSpriteRenderer.sprite = firingSprite; 
                 rangedWeapon.Attack();
-                lastAttackTime = Time.time; // Update the last attack time
-                StartCoroutine(ResetSpriteAfterDelay(firingSpriteDuration)); // Reset sprite after specified duration
+                lastAttackTime = Time.time; 
+                StartCoroutine(ResetSpriteAfterDelay(firingSpriteDuration)); 
             }
-            yield return null; // Wait until the next frame to continue the loop
+            yield return null; 
         }
 
         playerSpriteRenderer.sprite = normalSprite; // Ensure sprite is reset when not attacking
     }
 
-    private IEnumerator ResetSpriteAfterDelay(float delay)
-    {
+    private IEnumerator ResetSpriteAfterDelay(float delay) {
         yield return new WaitForSeconds(delay);
         if (playerSpriteRenderer != null)
         {

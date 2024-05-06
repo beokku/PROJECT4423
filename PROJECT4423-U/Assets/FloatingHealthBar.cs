@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class FloatingHealthBar : MonoBehaviour
-{
+public class FloatingHealthBar : MonoBehaviour {
 
     [SerializeField] private Slider slider;
     [SerializeField] private new Camera camera;
@@ -15,19 +14,14 @@ public class FloatingHealthBar : MonoBehaviour
         slider.value = currentValue / maxValue;
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
+    void Start() {
         GameObject cameraObject = GameObject.FindGameObjectWithTag("MainCamera");
-        if (cameraObject != null)
-        {
+        if (cameraObject != null) {
             camera = cameraObject.GetComponent<Camera>();
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
+    void Update() {
         transform.parent.rotation = camera.transform.rotation;
         transform.position = target.position + offset;
     }

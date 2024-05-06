@@ -4,22 +4,17 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class PauseMenuHandler : MonoBehaviour
-{
+public class PauseMenuHandler : MonoBehaviour {
 
     [SerializeField] GameObject UI;
     [SerializeField] TextMeshProUGUI text;
-    void Start() {
-
-    }
-
-    // Update is called once per frame
+ 
     void Update() {
          if (Input.GetKeyDown(KeyCode.Escape)) {
         if (UI.activeSelf)
-            Resume(); // Resume the game if UI is active
+            Resume(); 
         else
-            Pause(); // Pause the game if UI is not active
+            Pause(); 
         }
     }
 

@@ -3,35 +3,26 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class Timer : MonoBehaviour
-{
+public class Timer : MonoBehaviour {
 
     [SerializeField] private TextMeshProUGUI timerText;
     float elapsedTime;
     public GameObject player;
     public Creature playerCreature;
 
-    private void Start()
-    {
+    private void Start() {
         player = GameObject.FindWithTag("Player");
         playerCreature = player.GetComponent<Creature>();
     }
-    // Update is called once per frame
-    void Update()
-    {
+    void Update() {
 
-        if (player == null || !player.gameObject.activeInHierarchy)
-        {
+        if (player == null || !player.gameObject.activeInHierarchy){
 
-        }
-        else
-        {
+        } else {
             elapsedTime += Time.deltaTime;
             int minutes = Mathf.FloorToInt(elapsedTime / 60);
             int seconds = Mathf.FloorToInt(elapsedTime % 60);
             timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
         }
-        
     }
-
 }

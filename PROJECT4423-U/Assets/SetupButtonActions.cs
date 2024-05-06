@@ -4,16 +4,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SetupButtonActions : MonoBehaviour
-{
+public class SetupButtonActions : MonoBehaviour {
 
     public LevelUpMenuHandler lvlHandler;
-    void Awake()
-    {
+    void Awake() {
         
         var button = GetComponent<Button>();
-        if (button != null)
-        {
+        if (button != null) {
             button.onClick.AddListener(ButtonClicked);
         }
     }
@@ -22,8 +19,7 @@ public class SetupButtonActions : MonoBehaviour
         lvlHandler = FindObjectOfType<LevelUpMenuHandler>();
     }
 
-    private void ButtonClicked()
-    {
+    private void ButtonClicked() {
         String upgradeName = gameObject.name;
 
         switch (upgradeName) {

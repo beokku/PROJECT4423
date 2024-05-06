@@ -5,22 +5,9 @@ using UnityEngine.UI;
 
 public class UIExpBar : MonoBehaviour
 {
-
     [SerializeField] private Slider slider;
 
     public void UpdateExpBar(float currentValue, float maxValue) {
         slider.value = currentValue / maxValue;
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

@@ -4,8 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class RangedThing : MonoBehaviour
-{
+public class RangedThing : MonoBehaviour {
     [SerializeField] private GameObject carrotProjectile;
     [SerializeField] private float projectileSpeed = 10f;
     [SerializeField] private Creature player;
@@ -15,51 +14,41 @@ public class RangedThing : MonoBehaviour
     [SerializeField] private float maxRandomRotation = 1f;
     [SerializeField] private float attackSpeed = 1;
     [SerializeField] private float distanceFromPlayer = 1f; // Distance from the player where projectiles instantiate
-    //[SerializeField] private bool aimAtCursor = false; // Flag to decide whether to aim at the cursor
+  
 
     private Boolean aimAtCursor = false;
-    public void Attack()
-    {
+    public void Attack() {
         Vector2 targetPosition = Vector2.zero;
         aimAtCursor = GetComponent<PointTowardsNearestEnemy>().getAimToggle();
 
-        if (!aimAtCursor)
-        {
+        if (!aimAtCursor) {
             GameObject nearestEnemy = FindNearestEnemy();
-            if (nearestEnemy != null)
-            {
+            if (nearestEnemy != null) {
                 targetPosition = nearestEnemy.transform.position;
-            }
-            else
-            {
+            } else {
                 return; // No enemy to attack
             }
         }
-        else
-        {
-            // Aim at the cursor's position
-            targetPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        else {
+            targetPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);   // Aim at the cursor's position
         }
 
         Vector2 direction = (targetPosition - (Vector2)transform.position).normalized;
         float baseAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         float startAngle = baseAngle - spreadAngle * (numberOfProjectiles - 1) / 2;
 
-        for (int i = 0; i < numberOfProjectiles; i++)
-        {
+        for (int i = 0; i < numberOfProjectiles; i++) {
             float randomRotation = UnityEngine.Random.Range(-maxRandomRotation, maxRandomRotation);
             float currentAngle = startAngle + spreadAngle * i + accuracy + randomRotation;
             float fullRandomZRotation = UnityEngine.Random.Range(0f, 360f);
             Quaternion projectileRotation = Quaternion.Euler(0f, 0f, currentAngle);
             Quaternion additionalRandomRotation = Quaternion.Euler(0f, 0f, fullRandomZRotation);
-            
-            // Calculate the starting position based on distanceFromPlayer
+        
             Vector2 startPosition = transform.position + (Vector3)(projectileRotation * Vector2.right * distanceFromPlayer);
             
             GameObject projectile = Instantiate(carrotProjectile, startPosition, projectileRotation * additionalRandomRotation);
             Rigidbody2D rb = projectile.GetComponent<Rigidbody2D>();
-            if (rb != null)
-            {
+            if (rb != null){
                 Vector2 projectileDirection = projectileRotation * Vector2.right;
                 rb.velocity = projectileDirection * projectileSpeed;
             }
@@ -67,17 +56,14 @@ public class RangedThing : MonoBehaviour
         GetComponent<AudioSource>().Play();
     }
 
-    private GameObject FindNearestEnemy()
-    {
+    private GameObject FindNearestEnemy() {
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
         GameObject nearestEnemy = null;
         float closestDistance = Mathf.Infinity;
 
-        foreach (GameObject enemy in enemies)
-        {
+        foreach (GameObject enemy in enemies) {
             float distance = Vector2.Distance(transform.position, enemy.transform.position);
-            if (distance < closestDistance)
-            {
+            if (distance < closestDistance) {
                 closestDistance = distance;
                 nearestEnemy = enemy;
             }
