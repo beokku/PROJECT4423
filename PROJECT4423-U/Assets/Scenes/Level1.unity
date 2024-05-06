@@ -24038,6 +24038,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UI: {fileID: 116506306}
+  text: {fileID: 1122675391}
 --- !u!4 &666748687
 Transform:
   m_ObjectHideFlags: 0
@@ -32077,6 +32078,9 @@ MonoBehaviour:
   UI: {fileID: 14831759}
   playerCreature: {fileID: 1038564142}
   chainGun: {fileID: 8834537037847620554}
+  chainGunSpriteRenderer: {fileID: 1550251163624263393}
+  chainNormalSprite: {fileID: 21300000, guid: 4efe5d675eeefa3478237e9c3310878b, type: 3}
+  chainFiringSprite: {fileID: 21300000, guid: c0644c0732bfdb0458373b1eab649d6e, type: 3}
   carrotGun: {fileID: 1827801812}
   upgradeAttackSpeedPrefab: {fileID: 638515558478041892, guid: fbbbafd2f1ece2147879be7211a8dad8, type: 3}
   upgradeProjectilesPrefab: {fileID: 3595755245009599674, guid: 1be4f82c85f21134ba2790e048a8fc4e, type: 3}
@@ -40603,7 +40607,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 24300002, guid: ef43510a7da7e1a4f8470b0d28fa97d7, type: 2}
   m_audioClip: {fileID: 8300000, guid: f6b2b3c14da05aa4ba8eeb3720bccf0b, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 0.686
   m_Pitch: 1
   Loop: 0
@@ -40699,7 +40703,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 24300002, guid: ef43510a7da7e1a4f8470b0d28fa97d7, type: 2}
   m_audioClip: {fileID: 8300000, guid: 804421e1b42ff774b93dffc36e5f6f2a, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -46902,9 +46906,9 @@ MonoBehaviour:
   playerCreature: {fileID: 1038564142}
   weapon: {fileID: 0}
   rangedWeapon: {fileID: 1827801813}
-  playerSpriteRenderer: {fileID: 1550251163624263393}
-  normalSprite: {fileID: 21300000, guid: 4efe5d675eeefa3478237e9c3310878b, type: 3}
-  firingSprite: {fileID: 21300000, guid: c0644c0732bfdb0458373b1eab649d6e, type: 3}
+  playerSpriteRenderer: {fileID: 1827801817}
+  normalSprite: {fileID: 21300000, guid: 3cd487cdf354aa84293206593688f79e, type: 3}
+  firingSprite: {fileID: 21300000, guid: 45e0c9032a313364ca0e849526b44167, type: 3}
   firingSpriteDuration: 0.1
 --- !u!4 &1203883123
 Transform:
@@ -48685,6 +48689,50 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1258836805
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1258836807}
+  - component: {fileID: 1258836806}
+  m_Layer: 0
+  m_Name: EnemyPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1258836806
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1258836805}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4ecb35c7763b7845acee42dd77398cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1258836807
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1258836805}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -7.0533433, y: -7.5625043, z: 0.5571769}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1260943228
 GameObject:
   m_ObjectHideFlags: 0
@@ -69418,6 +69466,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4f16c51a513e3c42b67e71fe1dc4bb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!212 &1827801817 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 1550251162740192821, guid: aedea31d62b63db4cb72c36c368b0263, type: 3}
+  m_PrefabInstance: {fileID: 1878506836}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1828978589
 GameObject:
   m_ObjectHideFlags: 0
@@ -82057,3 +82110,4 @@ SceneRoots:
   - {fileID: 918884481}
   - {fileID: 763263322}
   - {fileID: 457902496}
+  - {fileID: 1258836807}

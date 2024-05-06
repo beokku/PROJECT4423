@@ -22,6 +22,12 @@ public class PlayerInputHandler : MonoBehaviour
         {
             Vector3 input = Vector3.zero;
 
+            if (Input.GetKey(KeyCode.Escape))
+            {
+                PauseMenuHandler pause = FindObjectOfType<PauseMenuHandler>();
+                pause.Pause();
+            }
+            
             if (Input.GetKey(KeyCode.A))
             {
                 input.x += -1;
@@ -115,5 +121,17 @@ public class PlayerInputHandler : MonoBehaviour
 
     public void setWeapon(RangedThing newWeapon) {
         rangedWeapon = newWeapon;
+    }
+
+    public void setSpriteRenderer(SpriteRenderer gun) {
+        playerSpriteRenderer = gun;
+    }
+
+    public void setNormalSprite(Sprite sprite) {
+        normalSprite = sprite;
+    }
+
+    public void setFiringSprite(Sprite sprite) {
+        firingSprite = sprite;
     }
 }

@@ -11,6 +11,9 @@ public class LevelUpMenuHandler : MonoBehaviour
     [SerializeField] GameObject UI;
     [SerializeField] private Creature playerCreature;
     [SerializeField] private GameObject chainGun;
+    [SerializeField] private SpriteRenderer chainGunSpriteRenderer;
+    [SerializeField] private Sprite chainNormalSprite;
+    [SerializeField] private Sprite chainFiringSprite;
     [SerializeField] private GameObject carrotGun;
     [SerializeField] public GameObject upgradeAttackSpeedPrefab;
     [SerializeField] private GameObject upgradeProjectilesPrefab;
@@ -146,6 +149,9 @@ public void chooseWeapon_ChainGun() {
         return;
     }
     playerInputHandler.setWeapon(rangedThing);
+    playerInputHandler.setSpriteRenderer(chainGunSpriteRenderer);
+    playerInputHandler.setNormalSprite(chainNormalSprite);
+    playerInputHandler.setFiringSprite(chainFiringSprite);
     currentWeapon = curWeapon;
     carrotGun.SetActive(false);
     chainGun.SetActive(true);

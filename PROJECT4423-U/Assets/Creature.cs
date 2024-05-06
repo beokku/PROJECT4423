@@ -1,8 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 using TMPro;
 using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -235,14 +237,14 @@ public class Creature : MonoBehaviour
                 GetComponent<AudioSource>().Play();
                 if (cameraShaker != null)
                 {
-                    StartCoroutine(StartInvulnerability(0.05f));
-                    StartCoroutine(cameraShaker.Shake(0.05f, 0.1f));
+                    //StartCoroutine(StartInvulnerability(0.05f));
+                    StartCoroutine(cameraShaker.Shake(0.01f, 0.05f));
                 }
             }
             health -= damageAmount;
             healthBar.UpdateHealthBar(health, maxHealth);
 
-            if (health < (maxHealth * 0.3))
+            if (health < (maxHealth * 0.3) && this.gameObject.tag == "Player")
             {
                 body.GetComponent<SpriteRenderer>().color = Color.blue;
             }
@@ -276,7 +278,10 @@ public class Creature : MonoBehaviour
                         
                     }
 
-                    Destroy(this.gameObject);
+                   EnemyPoolManager.Instance.AddToPool(this.gameObject);
+                   this.gameObject.SetActive(false);
+                   health = maxHealth;
+                   resetHealthBar();
                 }
 
                 if (this.gameObject.tag == "Player")
@@ -294,6 +299,10 @@ public class Creature : MonoBehaviour
                 Instantiate(deathParticles2, transform.position, Quaternion.identity);
                 Instantiate(deathParticles3, transform.position, Quaternion.identity);
                 //Instantiate(hitParticles, transform.position, Quaternion.identity);
+
+                 //Destroy(this.gameObject);
+                
+                    
 
             }
         }
@@ -403,6 +412,8 @@ public class Creature : MonoBehaviour
 
    public void addExpMult(float amt) {expMult += amt;}
 
+   public void resetHealth() { health = maxHealth;}
 
+    public void resetHealthBar() {healthBar.UpdateHealthBar(maxHealth, maxHealth);}
 
 }

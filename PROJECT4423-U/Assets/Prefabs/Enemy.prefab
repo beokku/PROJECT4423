@@ -371,7 +371,7 @@ MonoBehaviour:
   stamina: 3
   boostForce: 20
   damage: 10
-  healthBar: {fileID: 0}
+  healthBar: {fileID: 4564919053594376406}
   expBar: {fileID: 0}
   dead: 0
   isInvulnerable: 0
@@ -398,6 +398,10 @@ MonoBehaviour:
   collisionCount: 0
   enemiesDefeated: 0
   damageDealt: 0
+  playerDamage: {fileID: 0}
+  enemyDeath: {fileID: 0}
+  expPickup: {fileID: 0}
+  healthPickup: {fileID: 0}
 --- !u!50 &624012636851841754
 Rigidbody2D:
   serializedVersion: 4

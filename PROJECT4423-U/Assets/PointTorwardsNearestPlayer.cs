@@ -9,7 +9,6 @@ public class PointTowardsNearestPlayer : MonoBehaviour
 
     void Update()
     {
-        // Find all players (assuming you might have more than one target tagged as Player)
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
         GameObject nearestPlayer = null;
         float closestDistance = Mathf.Infinity;
